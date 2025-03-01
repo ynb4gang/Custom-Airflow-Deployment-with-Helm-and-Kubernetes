@@ -165,7 +165,7 @@ Providers (such as Spark or Amazon) evolve independently of Airflow Core. Whenev
 After updating the `values.yaml` file, upgrade your Airflow deployment using Helm:
 
 ```bash
-helm upgrade my-airflow apache-airflow/airflow -f values.yaml --namespace airflow-vn --debug
+helm upgrade my-airflow apache-airflow/airflow -f values.yaml --namespace your-namespace --debug
 ```
 ### Summary
 By customizing the Airflow Docker image, you can:
@@ -262,7 +262,7 @@ config:
 Add the connection string to `values.yaml`:
 
 ```bash
-helm upgrade my-airflow apache-airflow/airflow -f values.yaml --namespace airflow-vn --debug
+helm upgrade my-airflow apache-airflow/airflow -f values.yaml --namespace your-namespace --debug
 ```
 ---
 
@@ -402,16 +402,16 @@ For production, it’s recommended to store these keys in Kubernetes Secrets. He
 **Create a Secret:**
 ```bash
 kubectl create secret generic airflow-keys \
-  --namespace airflow-vn \
+  --namespace your-namespace \
   --from-literal=fernet-key="sV3X5y7z9B1D2G4J6L8M0N1O3P5Q7R9S" \
   --from-literal=webserver-secret-key="a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6"
 ```
 **Reference the Secret in Helm:**
 ```bash
 helm upgrade my-airflow apache-airflow/airflow \
-  --namespace airflow-vn \
-  --set config.AIRFLOW__CORE__FERNET_KEY="$(kubectl get secret airflow-keys -n airflow-vn -o jsonpath='{.data.fernet-key}' | base64 --decode)" \
-  --set config.AIRFLOW__WEBSERVER__SECRET_KEY="$(kubectl get secret airflow-keys -n airflow-vn -o jsonpath='{.data.webserver-secret-key}' | base64 --decode)" \
+  --namespace your-namespace \
+  --set config.AIRFLOW__CORE__FERNET_KEY="$(kubectl get secret airflow-keys -n your-namespace -o jsonpath='{.data.fernet-key}' | base64 --decode)" \
+  --set config.AIRFLOW__WEBSERVER__SECRET_KEY="$(kubectl get secret airflow-keys -n your-namespace -o jsonpath='{.data.webserver-secret-key}' | base64 --decode)" \
   --debug
 ```
 ---
