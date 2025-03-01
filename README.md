@@ -86,7 +86,7 @@ Create a `Dockerfile` to extend the base Airflow image and include the required 
 FROM apache/airflow:2.7.3
 
 # Set the maintainer label
-LABEL maintainer="Yasmine"
+LABEL maintainer="Airflow-Custom-Image"
 
 # Switch to root user to install system dependencies
 USER root
@@ -130,13 +130,13 @@ To make the image available for deployment, push it to a Docker registry such as
 Tag the image with your Docker Hub username or private registry URL:
 
 ```bash
-docker tag myairflow:1.0.0 docker.io/yasminekd/myairflow:1.0.0
+docker tag myairflow:1.0.0 docker.io/your-name/myairflow:1.0.0
 ```
 #### b. Push the Image
 Push the image to the registry:
 
 ```bash
-docker push docker.io/yasminekd/myairflow:1.0.0
+docker push docker.io/your-name/myairflow:1.0.0
 ```
 
 ### 5. Update the values.yaml File
@@ -145,7 +145,7 @@ To use the custom image in your Airflow deployment, update the `values.yaml` fil
 ```bash
 images:
   airflow:
-    repository: docker.io/yasminekd/myairflow
+    repository: docker.io/your-name/myairflow
     tag: 1.0.0
 ```
 This ensures that your Helm deployment uses the custom image instead of the default Apache Airflow image.
